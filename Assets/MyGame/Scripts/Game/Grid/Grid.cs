@@ -1,9 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Grid : MonoBehaviour
 {
     public int columns = 0;
     public int rows = 0;
@@ -44,7 +44,7 @@ public class NewBehaviourScript : MonoBehaviour
             for(var column = 0;column < columns; column++)
             {
                 _gridSquares.Add(Instantiate(gridSquare) as GameObject);
-                _gridSquares[_gridSquares.Count - 1].transform.SetParent(this.transform);
+                _gridSquares[_gridSquares.Count - 1].transform.SetParent(this.transform); // sinh ra các gridsquare bên trong object chứa script này
                 _gridSquares[_gridSquares.Count - 1].transform.localScale = new Vector3(squareScale,squareScale, squareScale);
                 _gridSquares[_gridSquares.Count - 1].GetComponent<GridSquare>().SetImage(square_index % 2 == 0);
                 square_index++;

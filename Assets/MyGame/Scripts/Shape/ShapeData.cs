@@ -1,10 +1,10 @@
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu] //[CreateAssetMenu(fileName = "NewData", menuName = "Custom Data")]
-[System.Serializable]
+[System.Serializable] //để các đối tượng của lớp hoặc cấu trúc có thể được hiển thị và chỉnh sửa trong Inspector.
 public class ShapeData : ScriptableObject
 {
     [System.Serializable]
@@ -13,7 +13,7 @@ public class ShapeData : ScriptableObject
         public bool[] column;
         private int _size = 0;
 
-        public Row() { }
+        public Row() { } //default constructor
 
         public Row(int size)
         {

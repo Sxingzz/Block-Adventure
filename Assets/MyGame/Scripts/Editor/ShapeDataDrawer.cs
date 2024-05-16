@@ -13,7 +13,7 @@ public class ShapeDataDrawer : Editor
 
     public override void OnInspectorGUI()
     {
-       serializedObject.Update(); //nếu bạn thay đổi một giá trị trên Inspector của một đối tượng ShapeData thì đảm bảo rằng các thay đổi đó được lưu trữ,
+       serializedObject.Update(); //nếu bạn thay đổi một giá trị trên Inspector của một đối tượng ShapeData thì đảm bảo rằng các thay đổi đó được lưu trữ.
         ClearBoardButton();
         EditorGUILayout.Space();
 
@@ -25,11 +25,13 @@ public class ShapeDataDrawer : Editor
             DrawBoardTable();
         }
 
+        //ApplyModifiedProperties(): Nó đảm bảo rằng bất kỳ thay đổi nào bạn thực hiện trên serializedObject thông qua custom editor,
+        //sẽ được áp dụng và lưu trữ trong đối tượng thực tế.
         serializedObject.ApplyModifiedProperties();
 
         if (GUI.changed)
         {
-            EditorUtility.SetDirty(ShapeDataInstance);
+            EditorUtility.SetDirty(ShapeDataInstance);//các thay đổi được thực hiện trong custom editor sẽ được lưu lại và ghi nhận là đã thay đổi.
         }
     }
 
