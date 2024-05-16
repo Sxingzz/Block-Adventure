@@ -15,7 +15,16 @@ public class ShapeStorage : MonoBehaviour
             var shapeIndex = UnityEngine.Random.Range(0, shapeData.Count);
             shape.CreateShape(shapeData[shapeIndex]);
         }
-        
+    }
+
+    public Shape GetCurrentSelectedShape()
+    {
+        foreach (var shape in shapelist)
+        {
+            if (shape.IsOnStartPosition() == false && shape.IsAnyOfShapeSquareActive()) return shape;
+        }
+        Debug.LogError("There is no shape selected");
+        return null;
     }
 
     
