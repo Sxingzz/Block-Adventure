@@ -17,6 +17,8 @@ public class Grid : MonoBehaviour
     private Vector2 _offset = new Vector2(0.0f, 0.0f);
     private List<GameObject> _gridSquares = new List<GameObject>();
 
+    private LineIndicator _LineIndicator;
+
     private void OnEnable()
     {
         GameEvent.CheckIfShapeCanBePlaced += CheckIfShapeCanBePlaced;
@@ -29,6 +31,7 @@ public class Grid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _LineIndicator = GetComponent<LineIndicator>();
         CreateGrid();
     }
 
@@ -39,6 +42,9 @@ public class Grid : MonoBehaviour
     }
     private void SpawnGridSquare()
     {
+        // 0, 1, 2, 3, 4,
+        // 5, 6, 7, 8, 9
+
         int square_index = 0;
         for(var row = 0; row < rows; row++)
         {
@@ -49,7 +55,7 @@ public class Grid : MonoBehaviour
                 _gridSquares[_gridSquares.Count - 1].GetComponent<GridSquare>().SquareIndex = square_index;
                 _gridSquares[_gridSquares.Count - 1].transform.SetParent(this.transform); // sinh ra các gridsquare bên trong object chứa script này
                 _gridSquares[_gridSquares.Count - 1].transform.localScale = new Vector3(squareScale,squareScale, squareScale);
-                _gridSquares[_gridSquares.Count - 1].GetComponent<GridSquare>().SetImage(square_index % 2 == 0);
+                _gridSquares[_gridSquares.Count - 1].GetComponent<GridSquare>().SetImage(_LineIndicator.GetGridSquareIndex(square_index) % 2 == 0);
                 square_index++;
                 
             }
