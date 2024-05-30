@@ -6,14 +6,14 @@ using UnityEditor;
 
 [CustomEditor(typeof(ShapeData), false)] // False : chỉ áp dụng trực tiếp cho ShapeData và không áp dụng cho bất kỳ lớp con nào của ShapeData.
 [CanEditMultipleObjects] //chỉnh sửa nhiều đối tượng cùng một lúc.
-[System.Serializable] //để các đối tượng của lớp hoặc cấu trúc có thể được hiển thị và chỉnh sửa trong Inspector.
+[System.Serializable] //có thể lưu trữ và khôi phục lại trạng thái của đối tượng.
 public class ShapeDataDrawer : Editor
 {
-   private ShapeData ShapeDataInstance => target as ShapeData;
+   private ShapeData ShapeDataInstance => target as ShapeData; // => Biểu thị rằng đây là một thuộc tính chỉ đọc tức Get.
 
     public override void OnInspectorGUI()
     {
-       serializedObject.Update(); //nếu bạn thay đổi một giá trị trên Inspector của một đối tượng ShapeData thì đảm bảo rằng các thay đổi đó được lưu trữ.
+       serializedObject.Update(); //Cập nhật dữ liệu từ đối tượng ShapeData vào serializedObject.
         ClearBoardButton();
         EditorGUILayout.Space();
 
@@ -25,9 +25,7 @@ public class ShapeDataDrawer : Editor
             DrawBoardTable();
         }
 
-        //ApplyModifiedProperties(): Nó đảm bảo rằng bất kỳ thay đổi nào bạn thực hiện trên serializedObject thông qua custom editor,
-        //sẽ được áp dụng và lưu trữ trong đối tượng thực tế.
-        serializedObject.ApplyModifiedProperties();
+        serializedObject.ApplyModifiedProperties();//Áp dụng các thay đổi từ serializedObject trở lại đối tượng ShapeData.
 
         if (GUI.changed)
         {

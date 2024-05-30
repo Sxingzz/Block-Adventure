@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu] //[CreateAssetMenu(fileName = "NewData", menuName = "Custom Data")]
-[System.Serializable] //để các đối tượng của lớp hoặc cấu trúc có thể được hiển thị và chỉnh sửa trong Inspector.
+[System.Serializable] //có thể lưu trữ và khôi phục lại trạng thái của đối tượng.
 public class ShapeData : ScriptableObject
 {
     [System.Serializable]
@@ -14,6 +14,10 @@ public class ShapeData : ScriptableObject
         private int _size = 0;
 
         public Row() { } //default constructor
+        //khi sử dụng mảng Row[] board trong lớp ShapeData,
+        //Unity yêu cầu mỗi phần tử trong mảng phải có một default constructor.
+        //Điều này là do Unity sử dụng tuần tự hóa (serialization) để lưu trữ và tải lại dữ liệu,
+        //và quá trình tuần tự hóa cần có khả năng tạo ra các đối tượng mà không cần biết trước các tham số cần thiết.
 
         public Row(int size)
         {
@@ -37,7 +41,7 @@ public class ShapeData : ScriptableObject
 
     public int columns = 0;
     public int rows = 0;
-    public Row[] board;
+    public Row[] board; // yêu cầu default constructor
 
     public void Clear()
     {
