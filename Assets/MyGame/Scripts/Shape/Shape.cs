@@ -87,7 +87,7 @@ public class Shape : MonoBehaviour, IPointerClickHandler, IPointerUpHandler, IBe
         {
             foreach(var square in _currentShape)
             {
-                square?.GetComponent<ShapeSquare>().ActivateShape();
+                square?.GetComponent<ShapeSquare>().ActivateShape(); //square?: Đây là toán tử null-conditional.
             }
         }
         _shapeActive = true;
@@ -144,9 +144,9 @@ public class Shape : MonoBehaviour, IPointerClickHandler, IPointerUpHandler, IBe
 
         if (shapeData.rows > 1)
         {
-            if(shapeData.rows % 2 != 0)
+            if(shapeData.rows % 2 != 0) // nếu hàng là số lẽ
             {
-                var middleSquareIndex = (shapeData.rows - 1) / 2;
+                var middleSquareIndex = (shapeData.rows - 1) / 2; // Xác định điểm giữa của hình dạng
                 var multiplier = (shapeData.rows - 1) / 2;
 
                 if (row < middleSquareIndex ) // move it on minus
@@ -160,9 +160,9 @@ public class Shape : MonoBehaviour, IPointerClickHandler, IPointerUpHandler, IBe
                     shiftOnY *= multiplier;
                 }
             }
-            else
+            else // nếu hàng là số chẵn
             {
-                var middleSquareIndex2 = (shapeData.rows == 2) ? 1 : (shapeData.rows / 2);
+                var middleSquareIndex2 = (shapeData.rows == 2) ? 1 : (shapeData.rows / 2); 
                 var middleSquareIndex1 = (shapeData.rows == 2) ? 0 : shapeData.rows - 2;
                 var multiplier = shapeData.rows / 2;
 
@@ -192,9 +192,9 @@ public class Shape : MonoBehaviour, IPointerClickHandler, IPointerUpHandler, IBe
 
         if (shapeData.columns > 1) // vertical positon caculation
         {
-            if(shapeData.columns % 2 != 0)
+            if(shapeData.columns % 2 != 0) // nếu cột là số lẽ
             {
-                var middleSquareIndex = (shapeData.columns - 1 ) / 2;
+                var middleSquareIndex = (shapeData.columns - 1 ) / 2;// Xác định điểm giữa của hình dạng
                 var multiplier = (shapeData.columns - 1 ) / 2;
 
                 if(column < middleSquareIndex) // move it on the negative

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +24,7 @@ public class ShapeStorage : MonoBehaviour
         foreach (var shape in shapelist)
         {
             var shapeIndex = UnityEngine.Random.Range(0, shapeData.Count);
-            shape.CreateShape(shapeData[shapeIndex]);
+            shape.CreateShape(shapeData[shapeIndex]); // tạo các hình dạng shape
         }
     }
 
