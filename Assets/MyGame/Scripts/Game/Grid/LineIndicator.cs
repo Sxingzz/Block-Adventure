@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,9 +38,9 @@ public class LineIndicator : MonoBehaviour
         0, 1, 2, 3, 4, 5, 6, 7, 8
     };
 
-    private (int, int) GetSquarePosition(int square_index)
+    private (int, int) GetSquarePosition(int square_index) //(int, int) là một cách khai báo Tuple.
     {
-        int pos_row = -1;
+        int pos_row = -1; // -1: ô vuông không tồn tại hoặc không tìm thấy.
         int pos_col = -1;
 
         for (int row = 0; row < 9; row++)
