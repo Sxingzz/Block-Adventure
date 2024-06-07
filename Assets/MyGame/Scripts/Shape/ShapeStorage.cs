@@ -12,7 +12,7 @@ public class ShapeStorage : MonoBehaviour
         GameEvent.RequesNewShapes += RequesNewShapes;
     }
 
-
+    
     private void OnDisable()
     {
         GameEvent.RequesNewShapes -= RequesNewShapes;
