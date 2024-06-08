@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
@@ -14,11 +14,16 @@ public class BinaryDataStream
         Directory.CreateDirectory(path);
 
         BinaryFormatter formatter = new BinaryFormatter();
+        //BinaryFormatter là một công cụ giúp chuyển đổi một đối tượng trong bộ nhớ thành dạng nhị phân để có thể lưu trữ vào tệp tin.
+
         FileStream fileStream = new FileStream(path + fileName + ".dat", FileMode.Create);
+        //.dat(để chỉ ra đây là tệp tin nhị phân).
+        //FileMode.Create: Chỉ định rằng nếu tệp tin đã tồn tại, nó sẽ bị ghi đè; nếu chưa tồn tại, nó sẽ được tạo mới.
 
         try
         {
             formatter.Serialize(fileStream, serializedObject);
+            //Nó sử dụng BinaryFormatter để chuyển đổi đối tượng serializedObject thành dạng nhị phân và ghi vào tệp tin thông qua fileStream.
         }
         catch (SerializationException e)
         {
@@ -27,10 +32,12 @@ public class BinaryDataStream
         finally
         {
             fileStream.Close();
+            //Đảm bảo rằng tệp tin luôn được đóng sau khi sử dụng, dù có lỗi xảy ra hay không.
+            // Điều này quan trọng để tránh rò rỉ tài nguyên và các vấn đề khác.
         }
     }
 
-    public static bool Exist(string fileName)
+    public static bool Exist(string fileName) // kiểm tra xem một tệp tin cụ thể có tồn tại trong thư mục lưu trữ dữ liệu của ứng dụng hay không
     {
         string path = Application.persistentDataPath + "/saves/";
         string fullFileName = fileName + ".dat";

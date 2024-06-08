@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -12,9 +12,10 @@ public class BestScoreData
 
 public class Scores : MonoBehaviour
 {
+    public SquareTextureData squareTextureData;
     public TextMeshProUGUI scoreText;
 
-    private bool newBestScore_ = false;
+    private bool newBestScore_ = false;//kiểm tra người chơi có đạt được điểm cao mới hay không.
     private BestScoreData bestScores_ = new BestScoreData();
     private int currentScores_;
     private string bestScoreKey_ = "bsdat";
@@ -31,7 +32,7 @@ public class Scores : MonoBehaviour
     {
         bestScores_ = BinaryDataStream.Read<BestScoreData>(bestScoreKey_);
         yield return new WaitForEndOfFrame();
-        Debug.Log("read best score = " + bestScores_.score);
+        GameEvent.UpdateBestScoreBar(currentScores_, bestScores_.score);
     }
 
     // Start is called before the first frame update
@@ -39,6 +40,7 @@ public class Scores : MonoBehaviour
     {
         currentScores_ = 0;
         newBestScore_ = false;
+        squareTextureData.SetStartColor();
         UpdateScoreText();
     }
 
@@ -66,8 +68,20 @@ public class Scores : MonoBehaviour
         {
             newBestScore_ = true;
             bestScores_.score = currentScores_;
+            SaveBestScores(true);
         }
+
+        UpdateSquareColor();
+        GameEvent.UpdateBestScoreBar(currentScores_, bestScores_.score);
         UpdateScoreText();
+    }
+
+    private void UpdateSquareColor()
+    {
+        if (currentScores_ >= squareTextureData.tresholdVal)
+        {
+            squareTextureData.UpdateColors(currentScores_);
+        }
     }
 
     private void UpdateScoreText()
