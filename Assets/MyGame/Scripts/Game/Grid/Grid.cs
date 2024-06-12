@@ -13,19 +13,24 @@ public class Grid : MonoBehaviour
     public Vector2 startPosition = new Vector2(0.0f, 0.0f);
     public float squareScale = 0.5f;
     public float everySquareOffset = 0.0f;
+    public SquareTextureData squareTextureData;
 
     private Vector2 _offset = new Vector2(0.0f, 0.0f);
     private List<GameObject> _gridSquares = new List<GameObject>();
 
     private LineIndicator _LineIndicator;
+    private Config.SquareColor currentActiveSquareColor_ = Config.SquareColor.NotSet;
+    private List<Config.SquareColor> colorInTheGrid_ = new List<Config.SquareColor>();
 
     private void OnEnable()
     {
         GameEvent.CheckIfShapeCanBePlaced += CheckIfShapeCanBePlaced;
+        GameEvent.UpdateSquareColor += OnUpdateSquareColor;
     }
     private void OnDisable()
     {
         GameEvent.CheckIfShapeCanBePlaced -= CheckIfShapeCanBePlaced;
+        GameEvent.UpdateSquareColor -= OnUpdateSquareColor;
     }
 
     // Start is called before the first frame update
@@ -33,6 +38,34 @@ public class Grid : MonoBehaviour
     {
         _LineIndicator = GetComponent<LineIndicator>();
         CreateGrid();
+
+        currentActiveSquareColor_ = squareTextureData.activeSquareTextures[0].squareColor;
+    }
+
+    private void OnUpdateSquareColor(Config.SquareColor color)
+    {
+        currentActiveSquareColor_ = color;
+    }
+
+    private List<Config.SquareColor> GetAllSquareColorsInTheGrid()
+    {
+        var colors = new List<Config.SquareColor>();
+
+        foreach (var square in _gridSquares)
+        {
+            var gridSquare = square.GetComponent<GridSquare>();
+
+            if (gridSquare.SquareOccupied)
+            {
+                var color = gridSquare.GetCurrentColor();
+                if (colors.Contains(color) == false)
+                {
+                    colors.Add(color);
+                }
+            }
+        }
+
+        return colors;
     }
 
     private void CreateGrid()
@@ -126,7 +159,7 @@ public class Grid : MonoBehaviour
         {
             foreach (var squareIndex in squareIndexes)
             {
-                _gridSquares[squareIndex].GetComponent<GridSquare>().PlaceShapeOnBoard();
+                _gridSquares[squareIndex].GetComponent<GridSquare>().PlaceShapeOnBoard(currentActiveSquareColor_);
             }
 
             var shapeLeft = 0; //đếm số lượng hình dạng còn lại trong kho shape
@@ -189,17 +222,51 @@ public class Grid : MonoBehaviour
             Lines.Add(data.ToArray());
         }
 
+        // this function needs to be called before CheckIfSquareAreCompleted
+        colorInTheGrid_ = GetAllSquareColorsInTheGrid();
+
         var completedLines = CheckIfSquareAreCompleted(Lines);
 
-        if(completedLines > 2)
+        if(completedLines >= 2)
         {
-            //TODO: Play bonus animation
+            GameEvent.ShowCongratulationWritings();
         }
 
         var totalScores = 10 * completedLines;
-        GameEvent.AddScores(totalScores);
+        var bonusScores = ShouldPlayColorBonusAnimation();
+        GameEvent.AddScores(totalScores + bonusScores);
         CheckIfPlayerLost();
         
+    }
+
+    private int ShouldPlayColorBonusAnimation()
+    {
+        var colorsInTheGridAfterLineRemoved = GetAllSquareColorsInTheGrid();
+        Config.SquareColor colorToPlayBonusFor = Config.SquareColor.NotSet;
+
+        foreach (var squareColor in colorInTheGrid_)
+        {
+            if (colorsInTheGridAfterLineRemoved.Contains(squareColor) == false)
+            {
+                colorToPlayBonusFor = squareColor;
+            }
+        }
+        
+        if (colorToPlayBonusFor == Config.SquareColor.NotSet)
+        {
+            Debug.Log("Cannot find color for bonus ");
+        }
+
+        // Should never play bonus for the current color
+        if (colorToPlayBonusFor == currentActiveSquareColor_)
+        {
+            return 0;
+        }
+
+        GameEvent.ShowBonusScreen(colorToPlayBonusFor);
+
+        return 50;
+
     }
 
     private int CheckIfSquareAreCompleted(List<int[]> data)

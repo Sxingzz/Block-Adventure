@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 3904547452453603060}
   - component: {fileID: 8604880003758370087}
   - component: {fileID: 2156253072216455441}
+  - component: {fileID: 2113373078133647725}
   - component: {fileID: 851343238652267605}
   - component: {fileID: 6196436074876319131}
   m_Layer: 5
@@ -167,6 +168,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2113373078133647725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5196049620016843730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca62ffc66881b4f4a81709f46e67d932, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  squareTextureData: {fileID: 11400000, guid: 7d133564a0ba9554e8ae923781a0a9dc, type: 2}
+  updateImageOnRechedTreshold: 1
 --- !u!50 &851343238652267605
 Rigidbody2D:
   serializedVersion: 4

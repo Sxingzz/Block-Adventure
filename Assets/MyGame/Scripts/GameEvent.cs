@@ -18,4 +18,10 @@ public class GameEvent : MonoBehaviour
     public static Action SetShapeInactive;
 
     public static Action<int, int> UpdateBestScoreBar;
+
+    public static Action<Config.SquareColor> UpdateSquareColor;
+
+    public static Action ShowCongratulationWritings;
+
+    public static Action<Config.SquareColor> ShowBonusScreen;
 }
